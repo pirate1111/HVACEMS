@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Co2-Mapper">
+<select id="selectSearchCo2List" resultType="co2">
+		select co2Num, co2Account, consumeNum, TO_CHAR(co2Date, 'YYYY-MM-DD HH24:MI:SS') as co2Date
+		from co2
+		where co2Num is not null
+		<choose>
+			<when test="fromDate == '' and toDate == ''">
+			</when>
+			<otherwise>
+				and TO_CHAR(co2Date, 'YYYY-MM') between #{fromDate} and #{toDate}
+			</otherwise>
+		</choose>
+		order by co2Date desc
+	</select>
+	
+	<select id="selectSearchCo2ListCount" resultType="int">
+		select count(*)
+		from co2
+		where co2Num is not null
+		<choose>
+			<when test="fromDate == '' and toDate == ''">
+			</when>
+			<otherwise>
+				and TO_CHAR(co2Date, 'YYYY-MM') between #{fromDate} and #{toDate}
+			</otherwise>
+		</choose>
+		order by co2Date desc
+	</select>
+	
+	<select id="selectCo2Price" resultType="co2">
+		select co2price, co2Target, co2Account
+		from co2
+		where co2Num is not null and<![CDATA[rownum=1]]>
+		order by co2Date desc
+	</select>
+	
+	<update id="insertCo2" parameterType="co2">
+		insert 
+		into 
+		co2(co2Num,co2Account,co2Date,co2Target)
+		values
+		(#{co2Num},#{co2Account},#{co2Date},#{co2Target})
+	</update>
+	
+</mapper>

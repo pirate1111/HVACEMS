@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	<typeAliases>
+		<typeAlias type="java.lang.String" alias="str"/> 
+		<typeAlias type="java.lang.Integer" alias="int"/>
+		<typeAlias type="java.lang.Float" alias="float"/>
+		
+		<typeAlias type="com.spring.dto.MenuVO" alias="menu"/>
+		<typeAlias type="com.spring.dto.SubmenuVO" alias="submenu"/>
+		<typeAlias type="com.spring.dto.ClasssVO" alias="classs"/>
+		<typeAlias type="com.spring.dto.HumidVO" alias="humid"/>
+		<typeAlias type="com.spring.dto.HvacelecVO" alias="hvacelec"/>
+		<typeAlias type="com.spring.dto.PressureVO" alias="pressure"/>
+		<typeAlias type="com.spring.dto.TemperatureVO" alias="temperature"/>
+		<typeAlias type="com.spring.dto.EnergycostVO" alias="energycost"/>
+		<typeAlias type="com.spring.dto.Co2VO" alias="co2"/>
+		<typeAlias type="com.spring.dto.CostChangeVO" alias="costchange"/>
+		<typeAlias type="com.spring.dto.AlarmVO" alias="alarm"/>
+		<typeAlias type="com.spring.dto.BreakVO" alias="break"/>
+		<typeAlias type="com.spring.dto.EnergyconsumeVO" alias="energyconsume"/>
+		<typeAlias type="com.spring.dto.CheckVO" alias="check"/>
+		<typeAlias type="com.spring.dto.AdminVO" alias="admin"/>
+		<typeAlias type="com.spring.dto.HygrometerVO" alias="hygrometer"/>
+		<typeAlias type="com.spring.dto.BarometerVO" alias="barometer"/>
+		<typeAlias type="com.spring.dto.DustmeterVO" alias="dustmeter"/>
+		<typeAlias type="com.spring.dto.ThermometerVO" alias="thermometer"/>
+		<typeAlias type="com.spring.dto.AttachVO" alias="attach"/>
+		<typeAlias type="com.spring.dto.WeatherVO" alias="weather"/>
+		<typeAlias type="com.spring.dto.AdminVO" alias="admin"/>
+		<typeAlias type="com.spring.dto.OnoffRecordVO" alias="onoffrecord"/>
+		<typeAlias type="com.spring.dto.BreakrecordVO" alias="breakrecord"/>
+	</typeAliases>
+</configuration>

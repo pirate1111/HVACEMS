@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Energycost-Mapper">
+	
+	<select id="selectEnergycost" resultType="energycost">
+		select costNum, energyCost, consumeNum, TO_CHAR(energycostDate, 'YYYY-MM-DD HH24:MI:SS') as energycostDate
+		from energycost
+		where costNum is not null
+		<choose>
+			<when test="fromDate == '' and toDate == ''">
+			</when>
+			<otherwise>
+				and TO_CHAR(energycostDate, 'YYYY-MM') between #{fromDate} and #{toDate}
+			</otherwise>
+		</choose>
+		order by energycostDate desc
+	</select>
+	
+	<select id="selectSearchEnergycostListCount" resultType="int">
+		select count(*)
+		from energycost
+		where costNum is not null
+		<choose>
+			<when test="fromDate == '' and toDate == ''">
+			</when>
+			<otherwise>
+				and TO_CHAR(energycostDate, 'YYYY-MM') between #{fromDate} and #{toDate}
+			</otherwise>
+		</choose>
+		order by energycostDate desc
+	</select>
+	
+	<select id="selectByYear" resultType="com.spring.command.SearchListCommand">
+		select TO_CHAR(energycostDate, 'YYYY') as year, sum(energyCost) as totalYear
+		from energycost
+		where costNum is not null
+        <choose>
+			<when test="fromDate == '' and toDate == ''">
+			</when>
+			<otherwise>
+				and TO_CHAR(energycostDate, 'YYYY') between #{fromDate} and #{toDate}
+			</otherwise>
+		</choose>
+        group by TO_CHAR(energycostDate, 'YYYY')
+        order by year desc
+	</select>
+	
+	<select id="selectLastYearCost" resultType="energycost">
+		select TO_CHAR(energycostDate, 'YYYY') as year, sum(energyCost) as lastYear
+		from energycost
+		where costNum is not null and <![CDATA[rownum=1]]>
+        group by TO_CHAR(energycostDate, 'YYYY')
+        order by year desc
+	</select>
+	
+	<update id="insertEnergycost" parameterType="energycost">
+		insert into 
+		energycost (costNum,energyCost)
+		values (#{costNum},#{energyCost})
+	</update>
+	
+	<select id="selectEnergycostSeqNext" resultType="int">
+		select energycost_seq.nextval as costNum
+		from dual
+	</select>
+	
+</mapper>

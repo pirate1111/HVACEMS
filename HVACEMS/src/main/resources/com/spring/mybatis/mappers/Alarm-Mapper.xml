@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Alarm-Mapper">
+
+	<select id="selectAlarmLog" resultType="alarm">
+		select *
+		from alarm
+		order by alarmNum desc
+	</select>
+	
+	<select id="selectAlarmLogCount" resultType="int">
+		select count(*)
+		from alarm
+		order by alarmNum desc
+	</select>
+	
+	<select id="selectAlarmReadCount" resultType="int">
+		select count(*)
+		from alarm
+		where alarmread = 1
+	</select>
+	
+	<select id="selectAlarmCheckList" resultType="alarm">
+		select *
+		from alarm
+		where alarmcheck = 1
+		order by alarmdate desc
+	</select>
+	
+	<select id="selectAlarmReadList" resultType="alarm">
+		select *
+		from alarm
+		where alarmread = 1
+		order by alarmdate asc
+	</select>
+	
+	<select id="selectAlarmByBreakNum" resultType="alarm">
+		select *
+		from alarm
+		where breakrecordnum = #{breakrecordnum}
+	</select>
+	
+	
+	<update id="insertAlarm" parameterType="alarm">
+		insert 
+		into 
+		alarm(alarmNum,alarmContent,breakRecordNum)
+		values
+		(#{alarmNum},#{alarmContent},#{breakRecordNum})
+	</update>
+	
+	<update id="updateCheck" parameterType="str">
+		update alarm
+		set alarmcheck = 0
+		where alarmNum = #{alarmNum}
+	</update>
+	
+	<update id="updateCheckAll">
+		update alarm
+		set alarmcheck = 0
+	</update>
+	
+	<update id="updateRead" parameterType="str">
+		update alarm
+		set alarmread = 0
+		where alarmNum = #{alarmNum}
+	</update>
+	
+</mapper>

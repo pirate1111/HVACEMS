@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Check-Mapper">
+	<sql id="search">
+		<if test="searchType == 'c'.toString()">
+			and CHECKDATE BETWEEN #{startTargetDate} AND #{endTargetDate}
+		</if>
+		<if test="searchType == 'u'.toString()">
+			and CHECKUPDATEDATE BETWEEN #{startTargetDate} AND #{endTargetDate}			
+		</if>
+	</sql>
+	
+	<select id="selectCheckList" resultType="check">
+		SELECT *
+		FROM CHECKLIST L, ADMIN A, CHECKCHECK C
+		WHERE L.ADMINID = A.ADMINID AND L.CHECKCHECKNUM = C.CHECKCHECKNUM
+		<include refid="search" />
+		ORDER BY CHECKNUM DESC
+		
+	</select>	
+	
+	<select id="selectCheckListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM CHECKLIST
+		WHERE CHECKNUM IS NOT NULL
+		<include refid="search" />
+		ORDER BY CHECKNUM DESC
+	</select>
+	
+	<select id="selectCheckByCheckNum" resultType="check">
+		SELECT *
+   		FROM CHECKLIST
+ 		WHERE CHECKNUM = #{checkNum}
+	</select>
+	
+	<update id="insertCheck" parameterType="check">
+		INSERT 
+		INTO CHECKLIST(CHECKNUM, CHECKBOX, CHECKDATE, CHECKUPDATEDATE,checkcheckNum,adminid)
+		VALUES (#{checkNum}, #{checkBox}, sysdate, sysdate,#{checkcheckNum},#{adminId})
+	</update>
+	
+	<update id="updateCheck" parameterType="check">
+		UPDATE CHECKLIST 
+		SET CHECKBOX=#{checkBox}, CHECKUPDATEDATE=SYSDATE
+		WHERE CHECKNUM=#{checkNum}
+	</update>
+	
+	<update id="deleteCheck" parameterType="int">
+		DELETE 
+		FROM CHECKLIST 
+		WHERE CHECKNUM=#{checkNum}
+	</update>
+	
+	<update id="increaseCheckCnt" parameterType="int">
+		UPDATE CHECKLIST
+		SET CHECKCNT = CHECKCNT + 1 
+		WHERE CHECKNUM = #{checkNum}
+	</update>
+	
+	<select id="selectCheckSeqNext" resultType="int">
+		SELECT CHECK_SEQ.nextval as CHECKNUM from dual
+	</select>
+</mapper>	

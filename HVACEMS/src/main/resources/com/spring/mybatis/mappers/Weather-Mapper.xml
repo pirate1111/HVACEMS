@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Weather-Mapper">
+	<sql id="date">
+		and TO_CHAR(weatherDate, 'YYYY-MM-DD HH24:MI') between TO_CHAR(sysdate - (INTERVAL '24' HOUR), 'YYYY-MM-DD HH24:MI') and TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI')
+	</sql> 
+	
+	<select id="selectWeather" resultType="weather">
+		select weatherdataNum, weatherTemperature, weatherHumidity, weatherPressure, TO_CHAR(weatherDate, 'YYYY-MM-DD HH24:MI:SS') as weatherDate
+		from weather
+		where TO_CHAR(weatherDate, 'YYYY-MM-DD HH24:MI') between TO_CHAR(sysdate - (INTERVAL '24' HOUR), 'YYYY-MM-DD HH24:MI') and TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI')
+        order by weatherDate asc
+	</select>
+	
+	<select id="selectWeatherGraph" resultType="weather">
+		select weatherdataNum, weatherTemperature, weatherHumidity, weatherPressure, TO_CHAR(weatherDate, 'YYYY-MM-DD HH24:MI:SS') as weatherDate
+		from weather
+		where weatherdataNum is not null
+		<choose>
+			<when test="toDate == 'sysdate' ">
+				<include refid="date"/>
+			</when>
+		</choose>
+		order by weatherDate asc
+	</select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Break-Mapper">
+	
+	<select id="selectBreakRecord" resultType="break">
+		select *
+		from breakrecord
+	</select>
+	
+	<select id="selectTypeByBreakNum" resultType="int">
+		select breakNum
+		from breakrecord
+		where breakRecordNum=#{breakRecordNum}
+	</select>
+	
+	<select id="selectHvacBreakNum" resultType="str">
+		select hvacNum
+		from breakrecord
+		where breakRecordNum=#{breakRecordNum}
+	</select>
+	
+	<select id="selectNameByNum" resultType="str">
+		select breakname
+		from breaktype
+		where breaknum=#{breaknum}
+	</select>
+	
+</mapper>

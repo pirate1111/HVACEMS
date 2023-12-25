@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Hvacelec-Mapper">
+	<sql id="section">
+		<if test="sectionType == 'A00'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'A01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'B01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'C01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'D01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'E01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'F01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'G01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'H01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'I01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'J01'.toString()">
+			and hvacelecSection like '%'||#{sectionType}||'%'
+		</if>
+	</sql>
+	
+	<sql id="searchdate">
+		and TO_CHAR(hvacelecDate, 'YYYY-MM-DD HH24:MI') between #{fromDate} and #{toDate}
+	</sql>
+	<sql id="maindate">
+		and TO_CHAR(hvacelecDate, 'YYYY-MM-DD HH24:MI') between TO_CHAR(sysdate - (INTERVAL '24' HOUR), 'YYYY-MM-DD HH24:MI') and TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI')
+	</sql> 
+	
+	<select id="selectHvacelec" resultType="hvacelec">
+		select hvacelecdataNum, hvacelecSection, hvacelecData, TO_CHAR(hvacelecDate, 'YYYY-MM-DD HH24:MI:SS') as hvacelecDate
+		from hvacelec
+		where hvacelecdataNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by hvacelecDate desc, hvacelecSection asc
+	</select>
+	
+	<select id="selectHvacelecGraph" resultType="hvacelec">
+		select hvacelecdataNum, hvacelecSection, hvacelecData, TO_CHAR(hvacelecDate, 'YYYY-MM-DD HH24:MI:SS') as hvacelecDate
+		from hvacelec
+		where hvacelecdataNum is not null
+		<choose>
+			<when test="toDate == 'sysdate' ">
+				<include refid="maindate"/>
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by hvacelecDate asc, hvacelecSection asc
+	</select>
+	
+	<select id="selectSearchHvacelecListCount" resultType="int">
+		select count(*)
+		from hvacelec
+		where hvacelecdataNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by hvacelecDate desc, hvacelecSection asc
+	</select>
+	
+	<select id="selectHvacelecSeqNext" resultType="int">
+		select hvacelec_seq.nextval as hvacelecdataNum
+		from dual
+	</select>
+	
+	<update id="insertHvacelec" parameterType="hvacelec">
+		insert into
+		hvacelec (hvacelecdataNum, hvacelecSection, hvacelecData)
+		values (#{hvacelecdataNum}, #{hvacelecSection}, #{hvacelecData})
+	</update>
+</mapper>

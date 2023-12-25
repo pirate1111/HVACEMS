@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Humid-Mapper">
+	<sql id="section">
+		<if test="sectionType == 'A00'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'A01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'B01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'C01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'D01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'E01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'F01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'G01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'H01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'I01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'J01'.toString()">
+			and hygrometerNum like '%'||#{sectionType}||'%'
+		</if>
+	</sql>
+	
+	<sql id="searchdate">
+		and TO_CHAR(humidDate, 'YYYY-MM-DD HH24:MI') between #{fromDate} and #{toDate}
+	</sql>
+	<sql id="maindate">
+		and TO_CHAR(humidDate, 'YYYY-MM-DD HH24:MI') between TO_CHAR(sysdate - (INTERVAL '24' HOUR), 'YYYY-MM-DD HH24:MI') and TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI')
+		and hygrometerNum = #{sectionType}
+	</sql> 
+	
+	<select id="selectHumid" resultType="humid">
+		select humidNum, hygrometerNum, humid, TO_CHAR(humidDate, 'YYYY-MM-DD HH24:MI:SS') as humidDate
+		from humid
+		where humidNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by humidDate desc, hygrometerNum asc
+	</select>
+	
+	<select id="selectHumidGraph" resultType="humid">
+		select humidNum, hygrometerNum, humid, TO_CHAR(humidDate, 'YYYY-MM-DD HH24:MI:SS') as humidDate
+		from humid
+		where humidNum is not null
+		<choose>
+			<when test="toDate == 'sysdate' ">
+				<include refid="maindate"/>
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by humidDate asc, hygrometerNum asc
+	</select>
+	
+	<select id="selectSearchHumidListCount" resultType="int">
+		select count(*)
+		from humid
+		where humidNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by humidDate desc, hygrometerNum asc
+	</select>
+	
+	<select id="selectHumidSeqNext" resultType="int">
+		select humid_seq.nextval as humidNum 
+		from dual
+	</select>
+	
+	<update id="insertHumid" parameterType="humid">
+		insert into
+		humid (humidNum, hygrometerNum, humid)
+		values (#{humidNum}, #{hygrometerNum}, #{humid})
+	</update>
+</mapper>

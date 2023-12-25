@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Energyconsume-Mapper">
+	<sql id="section">
+		<if test="sectionType == 'ALL'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'A'.toString()">
+			and hvacNum like #{sectionType}
+		</if>
+		<if test="sectionType == 'B'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'C'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'D'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'E'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'F'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'G'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'H'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'I'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'J'.toString()">
+			and hvacNum like '%'||#{sectionType}||'%'
+		</if>
+	</sql>
+
+	<sql id="searchdate">
+		and TO_CHAR(consumeDate, 'YYYY-MM-DD') between #{fromDate}
+		and #{toDate}
+	</sql>
+
+	<select id="selectEnergyconsume" resultType="energyconsume">
+		select consumeNum, consumeEnergy, hvacNum,
+		TO_CHAR(consumeDate,'YYYY-MM-DD HH24:MI:SS') as consumeDate
+		from
+		energyconsume
+		where consumeNum is not null
+		<choose>
+			<when
+				test="fromDate == '' and toDate == '' and sectionType == ''">
+				and hvacNum = 'ALL'
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section" />
+				<include refid="searchdate" />
+			</otherwise>
+		</choose>
+		order by consumeDate asc
+	</select>
+
+	<select id="selectSearchEnergyconsumeListCount" resultType="int">
+		select count(*)
+		from energyconsume
+		where consumeNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section" />
+				<include refid="searchdate" />
+			</otherwise>
+		</choose>
+		order by consumeDate desc
+	</select>
+
+	<select id="selectTodayEnergyconsume" resultType="energyconsume">
+		select *
+		from
+		energyconsume
+		where consumeDate=#{consumeDate}
+	</select>
+
+	<select id="getMonthlyConsumption"
+		resultType="com.spring.command.SearchListCommand">
+		SELECT TO_CHAR(consumedate, 'YYYY') AS year, TO_CHAR(consumedate,
+		'MM') AS month, SUM(consumeenergy) AS totalEnergy, HvacNum as section
+		FROM energyconsume
+		where consumeNum is not null
+		<choose>
+			<when test="fromDate == '' and toDate == '' and sectionType == ''">
+					and hvacNum = 'ALL'
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section" />
+				<include refid="searchdate" />
+			</otherwise>
+		</choose>
+		GROUP BY TO_CHAR(consumedate, 'YYYY'), TO_CHAR(consumedate, 'MM'),
+		HvacNum
+		ORDER BY year, month
+	</select>
+	
+	<select id="getMonthlyConsumptionCount" resultType="int">
+		SELECT TO_CHAR(consumedate, 'YYYY') AS year, COUNT(*)
+		FROM energyconsume
+		where consumeNum is not null
+		<choose>
+			<when
+				test="fromDate == '' and toDate == '' and sectionType == ''">
+				and hvacNum = 'ALL'
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section" />
+				<include refid="searchdate" />
+			</otherwise>
+		</choose>
+		GROUP BY TO_CHAR(consumedate, 'YYYY')
+		ORDER BY year
+	</select>
+
+	<select id="getYearConsumption"
+		resultType="com.spring.command.SearchListCommand">
+		SELECT
+		TO_CHAR(consumedate, 'YYYY') AS year,
+		SUM(consumeenergy) AS totalEnergy,
+		HvacNum as section
+		FROM energyconsume
+		where consumeNum is not null
+		<choose>
+			<when test="fromDate == '' and toDate == '' and sectionType == ''">
+					and hvacNum = 'ALL'
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section" />
+				<include refid="searchdate" />
+			</otherwise>
+		</choose>
+		GROUP BY TO_CHAR(consumedate, 'YYYY'), hvacnum
+		ORDER BY year
+	</select>
+	
+	<update id="insertConsumeEnergy" parameterType="energyconsume">
+		insert into
+		energyconsume(consumeNum,consumeEnergy, consumeOperation, hvacNum, cooler, heater, dehumidifier)
+		values (#{consumeNum},#{consumeEnergy},#{consumeOperation},#{hvacNum},#{cooler},#{heater},#{dehumidifier})
+	</update>
+	
+	<select id="selectEnergyConsumeSeqNext" resultType="int">
+		select energyconsume_seq.nextval as consumeNum
+		from dual
+	</select>
+
+	<select id="selectThisMonthEnergy" resultType="int">
+		select sum(consumeEnergy)
+		from energyconsume
+		where TO_CHAR(consumeDate, 'YYYY-MM') = TO_CHAR(sysdate, 'YYYY-MM')
+	</select>
+	
+</mapper>

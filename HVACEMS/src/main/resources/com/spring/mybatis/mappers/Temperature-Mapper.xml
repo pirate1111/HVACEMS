@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Temperature-Mapper">
+	<sql id="section">
+		<if test="sectionType == 'A00'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'A01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'B01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'C01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'D01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'E01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'F01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'G01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'H01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'I01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'J01'.toString()">
+			and thermometerNum like '%'||#{sectionType}||'%'
+		</if>
+	</sql>
+	
+	<sql id="searchdate">
+		and TO_CHAR(temperatureDate, 'YYYY-MM-DD HH24:MI') between #{fromDate} and #{toDate}
+	</sql>
+	<sql id="maindate">
+		and TO_CHAR(temperatureDate, 'YYYY-MM-DD HH24:MI') between TO_CHAR(sysdate - (INTERVAL '24' HOUR), 'YYYY-MM-DD HH24:MI') and TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI')
+		and thermometerNum = #{sectionType}
+	</sql> 
+	
+	<select id="selectTemperature" resultType="temperature">
+		select temperatureNum, thermometerNum, temperature, TO_CHAR(temperatureDate, 'YYYY-MM-DD HH24:MI:SS') as temperatureDate
+		from temperature
+		where temperatureNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by temperatureDate desc, thermometerNum asc
+	</select>
+	
+	<select id="selectTemperatureGraph" resultType="temperature">
+		select temperatureNum, thermometerNum, temperature, TO_CHAR(temperatureDate, 'YYYY-MM-DD HH24:MI:SS') as temperatureDate
+		from temperature
+		where temperatureNum is not null
+		<choose>
+			<when test="toDate == 'sysdate' ">
+				<include refid="maindate"/>
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by temperatureDate asc, thermometerNum asc
+	</select>
+	
+	<select id="selectSearchTemperatureListCount" resultType="int">
+		select count(*)
+		from temperature
+		where temperatureNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by temperatureDate desc, thermometerNum asc
+	</select>
+	
+	<select id="selectTemperatureSeqNext" resultType="int">
+		select temperature_seq.nextval as temperatureNum
+		from dual
+	</select>
+	
+	<update id="insertTemperature" parameterType="temperature">
+		insert into
+		temperature (temperatureNum, thermometerNum, temperature)
+		values (#{temperatureNum}, #{thermometerNum}, #{temperature})
+	</update>
+</mapper>

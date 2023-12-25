@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OnoffRecord-Mapper">
+
+<select id="selectOnoffYnA" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'A'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnB" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'B'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnC" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'C'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnD" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'D'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnE" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'E'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnF" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'F'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnG" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'G'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnH" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'H'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnI" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'I'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffYnJ" resultType="onoffrecord">
+	SELECT *
+	FROM (
+	  SELECT *
+	  FROM ONOFFRECORD
+	  WHERE hvacnum = 'J'
+	  ORDER BY onoffrecorddate DESC
+	)
+	WHERE ROWNUM &lt;= 1
+</select>
+
+<select id="selectOnoffSeqNext" resultType="int">
+	select onoffRecord_seq.nextval as onoffRecordNum
+	from dual
+</select>
+
+<insert id="insertOnoff" >
+	insert into 
+	onoffRecord(onoffRecordNum, hvacNum, onoffYn)
+	values(#{onoffRecordNum}, #{hvacNum}, #{onoffYn})
+</insert>
+
+</mapper>

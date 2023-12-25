@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.wrap::before{
+    content:'';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(to right, rgba(170,0,0,1) 0%, rgba(170,0,0,0.75) 51%, rgba(170,0,0,0) 100%);
+}
+.wrap::after{
+    content:'';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(to right, rgba(170,0,0,0) 0%, rgba(170,0,0,0.75) 51%, rgba(170,0,0,1) 100%);
+}
+
+.wrap{
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+}
+
+.rollingbanner{
+    width: 100%;
+}
+
+.roller{
+    position: relative;
+    color: white;
+}
+
+.roller > ul{
+	list-style-type: none;
+}
+
+.bannercontent{
+	display: flex;
+	align-items: center;
+	margin: 4px 4px;
+	white-space: nowrap;
+	word-wrap: none;
+}
+

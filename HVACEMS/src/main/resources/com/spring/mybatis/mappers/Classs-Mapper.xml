@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Classs-Mapper">
+	<sql id="section">
+		<if test="sectionType == 'A00'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'A01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'B01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'C01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'D01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'E01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'F01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'G01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'H01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'I01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+		<if test="sectionType == 'J01'.toString()">
+			and dustmeterNum like '%'||#{sectionType}||'%'
+		</if>
+	</sql>
+	
+	<sql id="searchdate">
+		and TO_CHAR(classsDate, 'YYYY-MM-DD HH24:MI') between #{fromDate} and #{toDate}
+	</sql>
+	<sql id="maindate">
+		and TO_CHAR(classsDate, 'YYYY-MM-DD HH24:MI') between TO_CHAR(sysdate - (INTERVAL '24' HOUR), 'YYYY-MM-DD HH24:MI') and TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI')
+		and dustmeterNum = #{sectionType}
+	</sql> 
+	
+	<select id="selectClasss" resultType="classs">
+		select classsNum, dustmeterNum, classs, TO_CHAR(classsDate, 'YYYY-MM-DD HH24:MI:SS') as classsDate
+		from classs
+		where classsNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by classsDate desc, dustmeterNum asc
+	</select>
+	
+	<select id="selectClasssGraph" resultType="classs">
+		select classsNum, dustmeterNum, classs, TO_CHAR(classsDate, 'YYYY-MM-DD HH24:MI:SS') as classsDate
+		from classs
+		where classsNum is not null
+		<choose>
+			<when test="toDate == 'sysdate' ">
+				<include refid="maindate"/>
+			</when>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by classsDate asc, dustmeterNum asc
+	</select>
+	
+	<select id="selectSearchClasssListCount" resultType="int">
+		select count(*)
+		from classs
+		where classsNum is not null
+		<choose>
+			<when test="fromDate == '' or toDate == '' ">
+				<include refid="section" />
+			</when>
+			<otherwise>
+				<include refid="section"/>
+				<include refid="searchdate"/>
+			</otherwise>
+		</choose>
+		order by classsDate desc, dustmeterNum asc
+	</select>
+	
+	<select id="selectClasssSeqNext" resultType="int">
+		select classs_seq.nextval as classsNum 
+		from dual
+	</select>
+	
+	<update id="insertClasss" parameterType="classs">
+		insert into
+		classs (classsNum, dustmeterNum, classs)
+		values (#{classsNum}, #{dustmeterNum}, #{classs})
+	</update>
+</mapper>

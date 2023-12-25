@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- file upload -->
+	<bean id="uploadAttachFileUrl" class="java.lang.String">
+		<constructor-arg value="${check.upload}"/>
+	</bean>
+	
+	<!-- Repository -->
+	<bean id="menuDAO" class="com.spring.dao.MenuDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="submenuDAO" class="com.spring.dao.SubmenuDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="temperatureDAO" class="com.spring.dao.TemperatureDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="humidDAO" class="com.spring.dao.HumidDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="pressureDAO" class="com.spring.dao.PressureDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="classsDAO" class="com.spring.dao.ClasssDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="hvacelecDAO" class="com.spring.dao.HvacelecDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="energycostDAO" class="com.spring.dao.EnergycostDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="alarmDAO" class="com.spring.dao.AlarmDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="breakDAO" class="com.spring.dao.BreakDAOImpl"
+	     p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="energyconsumeDAO" class="com.spring.dao.EnergyconsumeDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="checkDAO" class="com.spring.dao.CheckDAOImpl" 
+		p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="co2DAO" class="com.spring.dao.Co2DAOImpl" 
+		  p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="adminDAO" class="com.spring.dao.AdminDAOImpl"
+		  p:sqlSession-ref="sqlSession"
+	/>
+	<bean id= "ThermometerDAO" class="com.spring.dao.ThermometerDAOImpl"
+		  p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id= "HygrometerDAO" class="com.spring.dao.HygrometerDAOImpl" 
+	 	  p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id= "BarometerDAO" class="com.spring.dao.BarometerDAOImpl" 
+		  p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id= "DustmeterDAO" class="com.spring.dao.DustmeterDAOImpl" 
+		  p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="attachDAO" class="com.spring.dao.AttachDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="weatherDAO" class="com.spring.dao.WeatherDAOImpl"
+		  p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="costChangeDAO" class="com.spring.dao.CostChangeDAOImpl" 
+		  p:sqlSession-ref="sqlSession" 
+	/>
+	<bean id="OnoffRecordDAO" class="com.spring.dao.OnoffRecordDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	<bean id="breakrecordDAO" class="com.spring.dao.BreakrecordDAOImpl"
+		p:sqlSession-ref="sqlSession"
+	/>
+	
+	<!-- Service -->
+	<bean id="menuService" class="com.spring.service.MenuServiceImpl"
+		  p:menuDAO-ref="menuDAO"
+		  p:submenuDAO-ref="submenuDAO"
+	/>
+	<bean id="cleandataService" class="com.spring.service.CleandataServiceImpl"
+		  p:temperatureDAO-ref="temperatureDAO"
+		  p:humidDAO-ref="humidDAO"
+		  p:pressureDAO-ref="pressureDAO"
+		  p:classsDAO-ref="classsDAO"
+		  p:hvacelecDAO-ref="hvacelecDAO"
+		  p:weatherDAO-ref="weatherDAO"
+	/>
+	<bean id="costService" class="com.spring.service.CostServiceImpl"
+		  p:energycostDAO-ref="energycostDAO"
+		  p:co2DAO-ref="co2DAO"
+		  p:energyconsumeDAO-ref="energyconsumeDAO"
+		  p:costChangeDAO-ref="costChangeDAO"	 
+	/>
+	<bean id="energyconsumeService" class="com.spring.service.EnergyconsumeServiceImpl"
+		  p:energyconsumeDAO-ref="energyconsumeDAO"
+	/>
+	<bean id="alarmService" class="com.spring.service.AlarmServiceImpl"
+		  p:alarmDAO-ref="alarmDAO"
+		  p:breakDAO-ref="breakDAO"
+	/>
+	<bean id="checkService" class="com.spring.service.CheckServiceImpl" 
+		  p:checkDAO-ref="checkDAO"
+		  p:attachDAO-ref="attachDAO"
+	/>
+	<bean id="adminService" class="com.spring.service.AdminServiceImpl"
+		  p:adminDAO-ref="adminDAO"
+	/>
+	<bean id="ThermometerService" class="com.spring.service.ThermometerServiceImpl" 
+		  p:thermometerDAO-ref="ThermometerDAO"
+	/>
+	<bean id="HygrometerService" class="com.spring.service.HygrometerServiceImpl"
+		  p:hygrometerDAO-ref="HygrometerDAO"
+	/>
+	<bean id="BarometerService" class="com.spring.service.BarometerServiceImpl" 
+		  p:barometerDAO-ref="BarometerDAO"
+	/>
+	<bean id="DustmeterService" class="com.spring.service.DustmeterServiceImpl" 
+	  	  p:dustmeterDAO-ref="DustmeterDAO"
+	/>
+	<bean id="cleanroomInnerDataScheduler" class="com.spring.scheduler.CleanroomInnerDataScheduler"
+		  p:temperatureDAO-ref="temperatureDAO"
+		  p:humidDAO-ref="humidDAO"
+		  p:pressureDAO-ref="pressureDAO"
+		  p:classsDAO-ref="classsDAO"
+		  p:energyconsumeDAO-ref="energyconsumeDAO"
+		  p:hvacelecDAO-ref="hvacelecDAO"
+		  p:costChangeDAO-ref="costChangeDAO"
+	/>
+	<bean id="OnoffRecordService" class="com.spring.service.OnoffRecordServiceImpl" 
+	  	  p:onoffRecordDAO-ref="OnoffRecordDAO"
+	/>
+	<bean id="hvacModuleDataScheduler" class="com.spring.scheduler.CleanroomInnerDataScheduler"
+		  />
+</beans>

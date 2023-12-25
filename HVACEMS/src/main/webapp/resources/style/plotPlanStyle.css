@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+table{
+	border:none;
+	margin-left:10px;
+}
+
+td{
+	border:none;
+	width:48px;
+	height:25px;
+	padding:0px;
+	text-align:center;
+	margin:0 auto;
+}
+
+.vent-aisle{
+	background-color:#D2E9E9;
+}
+
+.air-vent-column{
+	background-color:#ACB1D6;
+}
+
+.air-vent{
+	background-color:#8294C4;
+}
+
+/* setting */
+.modal {
+    display:none;
+    position:fixed;
+    top:80px;
+    left:auto;
+    right:115px !important;
+    width:300px;
+    height:380px;
+    background-color:rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:300px;
+    height:380px;
+    transform:translate(-50%, -50%);
+    background-color:#fff;
+    padding:5px;
+}
+
+.modal-header {
+    display:flex;
+    justify-content:space-between;
+    height:60px;
+}
+
+.close {
+    cursor:pointer;
+}
+
+.modal-body {
+	padding:8px;
+}
+
+
+/* 상단 표시 값 */
+.showValue{
+	border:2px solid #ADC4CE;
+	background-color:#F8F6F4;
+}
+
+#column{
+	background-color:#64CCC5;
+}
+
+#value{
+	border:2px solid #B4B4B3;
+}
+
+/* 슬라이드 */
+.rangeInput{
+	width: 80%;
+	background: linear-gradient(to right, #FFE283 0%, #FFE283 50%, #ececec 50%, #ececec 100%);
+	border-radius: 8px;
+	outline: none;
+	transition: background 450ms ease-in;
+	-webkit-appearance: none;
+	accent-color: #ffca1d;
+}
+
+/* 세팅 슬라이드 */
+.rangeInputSet{
+	width: 85%;
+	background: linear-gradient(to right, #FFE283 0%, #FFE283 50%, #ececec 50%, #ececec 100%);
+	border-radius: 8px;
+	outline: none;
+	transition: background 450ms ease-in;
+	-webkit-appearance: none;
+	accent-color: #ffca1d;
+}
+
+/* 변경 버튼 */
+#changeValue{
+	border:2px solid #73A9AD;
+	background-color:#C4DFDF;
+	border-radius:5px;
+	width:60px;
+	height:28px;
+}
+
+
+/* 체크박스 */
+input[type=checkbox] + label{
+	display:inline-block;
+	width:18px;
+	height:18px;
+	border-radius: 50%;
+	border:2px solid #F90716;
+	background-color:#F90716;
+	cursor:pointer;
+	text-align:center;
+	margin:0px;
+	padding:0px;
+}
+
+input[type=checkbox]:checked + label{
+	background-color:#77D970;
+	border:2px solid #77D970;
+	text-align:center;
+	margin:0px;
+}
+
+input[type=checkbox]{
+	display: none;
+	margin:0px;
+}

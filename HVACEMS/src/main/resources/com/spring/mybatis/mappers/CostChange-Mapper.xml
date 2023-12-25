@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CostChange-Mapper">
+	
+	<update id="updateCostChange" parameterType="costchange">
+		update 
+		costchange
+		set 
+		baseFee=#{baseFee}, contractedPower=#{contractedPower}, tax=#{tax}, fund=#{fund}
+	</update>
+	
+	<select id="selectCostChange" resultType="costchange">
+		select baseFee, contractedPower, tax, fund
+		from costchange
+	</select>
+	
+</mapper>
