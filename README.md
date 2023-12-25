@@ -5,8 +5,8 @@
     </div>
     <div style="text-align: left;"> 
     <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 에너지사용 최적화를 위한 클린룸 공조설비에너지관리시스템(HVACEMS) </h2>  
-    <div style="font-weight: 700; font-size: 15px; text-align: left; color: #282d33;"> # 맡은 기능 소개</li>
-    </li>**에너지 비용 조회 및 분석**</li></li>1. 에너지 비용 및 탄소배출량 산출</li>2. 에너지 비용 단가 조회 및 수정</li>3. 월별/연별 에너지 비용 조회, 분석 및 시각화</li>4. 연별 탄소배출량 조회, 분석 및 시각화 </div> 
+    <div style="font-weight: 700; font-size: 15px; text-align: left; color: #282d33;"> # 맡은 기능 소개<br></li><br>
+    </li>**에너지 비용 조회 및 분석**<br></li></li>1. 에너지 비용 및 탄소배출량 산출<br></li>2. 에너지 비용 단가 조회 및 수정<br></li>3. 월별/연별 에너지 비용 조회, 분석 및 시각화<br></li>4. 연별 탄소배출량 조회, 분석 및 시각화 </div> 
     </div>
     <div style="text-align: left;">
     <h2 style="border-bottom: 1px solid #d8dee4; color: #282d33;"> 🛠️ Tech Stacks </h2> <br> 
